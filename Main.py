@@ -8,7 +8,7 @@ from openai import OpenAI
 
 st.set_page_config(layout="wide")
 
-
+os.environ["OPENAI_API_KEY"] = ""
 API_KEY = ""
 client = OpenAI(api_key=API_KEY)
 
