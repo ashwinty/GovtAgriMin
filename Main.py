@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 client = OpenAI()
 
 @st.cache_resource
-def create_retriever():
+def create_retriever(top_k):
     index = load_index_from_storage(
         storage_context=StorageContext.from_defaults(
             docstore=SimpleDocumentStore.from_persist_dir(persist_dir="vector store"),
@@ -28,7 +28,7 @@ st.title("Crop Data Semantic Search")
 query = st.text_input(label="Please enter your query - ", value="")
 top_k = st.number_input(label="Top k - ", min_value=3, max_value=5, value=3)
 
-retriever = create_retriever()
+retriever = create_retriever(top_k)
 
 if query and top_k:
     col1, col2 = st.columns([3, 2])
@@ -43,9 +43,7 @@ if query and top_k:
                     "Score": i.get_score(),
                 }
             )
-
-        for i in response:
-            st.markdown(i["Text"], unsafe_allow_html=True)
+        st.json(response)
 
     with col2:
         summary = st.empty()
