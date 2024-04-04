@@ -1,0 +1,5 @@
+llama-index
+faiss-cpu
+openai
+llama-index-vector-stores-faiss
+streamlit
