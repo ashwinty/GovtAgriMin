@@ -27,9 +27,9 @@ translate_client = translate.Client.from_service_account_info(service_account_in
 def create_retriever(top_k):
     index = load_index_from_storage(
         storage_context=StorageContext.from_defaults(
-            docstore=SimpleDocumentStore.from_persist_dir(persist_dir="vector_store"),
-            vector_store=FaissVectorStore.from_persist_dir(persist_dir="vector_store"),
-            index_store=SimpleIndexStore.from_persist_dir(persist_dir="vector_store"),
+            docstore=SimpleDocumentStore.from_persist_dir(persist_dir="vector store"),
+            vector_store=FaissVectorStore.from_persist_dir(persist_dir="vector store"),
+            index_store=SimpleIndexStore.from_persist_dir(persist_dir="vector store"),
         )
     )
     return index.as_retriever(retriever_mode="embedding", similarity_top_k=int(top_k))
