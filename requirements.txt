@@ -3,3 +3,7 @@ faiss-cpu
 openai
 llama-index-vector-stores-faiss
 streamlit
+httpx==0.23.2
+google-cloud-translate==2.0.1
+googletrans
+httpcore
