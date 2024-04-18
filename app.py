@@ -21,7 +21,7 @@ with open("GOOGLE_APPLICATION_CREDENTIALS_JSON.json", 'r') as f:
 client = OpenAI()
 
 # Initialize Google Cloud Translation API client with service account credentials
-translate_client = translate.Client.from_service_account_json(service_account_info)
+translate_client = translate.Client.from_service_account_info(service_account_info)
 
 @st.cache_resource
 def create_retriever(top_k):
