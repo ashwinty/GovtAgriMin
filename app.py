@@ -75,11 +75,11 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
     return response.audio_content
 
 # Get the file name from the user
-source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German"])  # Add more languages as needed
-if source_language != "English":
-    translated_query = translate_text(target="en", text=transcribed_text, source=source_language)
-else:
-    translated_query = transcribed_text
+# source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German"])  # Add more languages as needed
+# if source_language != "English":
+#     translated_query = translate_text(target="en", text=transcribed_text, source=source_language)
+# else:
+#     translated_query = transcribed_text
 
 # Update query input field with transcribed text
 query = st.text_input(label="Please enter your query - ", value=translated_query, key="query_input")
