@@ -80,13 +80,7 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 #     translated_query = translate_text(target="en", text=transcribed_text, source=source_language)
 # else:
 #     translated_query = transcribed_text
-
-# Update query input field with transcribed text
-query = st.text_input(label="Please enter your query - ", key = "query_input")#, value=translated_query, key="query_input")
-top_k = st.number_input(label="Top k - ", min_value=3, max_value=5, value=3, key="top_k_input")
-# Proceed with semantic search
-retriever = create_retriever(top_k)
-# Rest of your code for semantic search with the provided query
+# Rest of your code...
 
 if query and top_k:
     col1, col2 = st.columns([3, 2])
@@ -196,10 +190,10 @@ Summary:
 
         st.write("Audio")
         audio_content = text_to_speech(result)
-        audio_file_path = "temp_audio_col2.mp3"
-        with open(audio_file_path, "wb") as f:
-            f.write(audio_content)
-        st.audio(audio_file_path, format="audio/mp3")
+        audio_b64 = base64.b64encode(audio_content).decode("utf-8")
+        audio_tag = f'<audio controls="controls"><source src="data:audio/mp3;base64,{audio_b64}" type="audio/mp3" /></audio>'
+        st.markdown(audio_tag, unsafe_allow_html=True)
+
 
 
 
