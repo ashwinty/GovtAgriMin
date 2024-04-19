@@ -8,14 +8,8 @@ from llama_index.core.storage.index_store import SimpleIndexStore
 from openai import OpenAI
 from google.cloud import translate_v2 as translate
 import json
-import sounddevice as sd
-import numpy as np
-import tempfile
-from pydub import AudioSegment
-import soundfile as sf
 from google.cloud import texttospeech
 from langdetect import detect
-import uuid
 import base64
 
 st.set_page_config(layout="wide")
@@ -32,18 +26,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
 # API_KEY = ""
 client = OpenAI()
 
-audio_file_path = ""  # Define audio_file_path globally
-
 # Initialize Google Cloud Translation API client with service account credentials
 translate_client = translate.Client.from_service_account_info(service_account_info)
-
-# Function to translate text
-def translate_text(target, text, source):
-    if source == target:
-        return text  # Return input text if source language is the same as target language
-    translation = translate_client.translate(text, target_language=target, source_language=source)
-    return translation["translatedText"]
-
 
 # Initialize Google Cloud Text-to-Speech client
 text_to_speech_client = texttospeech.TextToSpeechClient()
@@ -66,6 +50,12 @@ def detect_language(text):
     except:
         return "en"  # Default to English if language detection fails
 
+def translate_text(target, text, source):
+    if source == target:
+        return text  # Return input text if source language is the same as target language
+    translation = translate_client.translate(text, target_language=target, source_language=source)
+    return translation["translatedText"]
+
 def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
     language_code = detect_language(text)
     synthesis_input = texttospeech.SynthesisInput(text=text)
@@ -84,89 +74,7 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 
     return response.audio_content
 
-# Function to record audio from microphone
-def record_audio(duration, samplerate):
-    print("Recording...")
-    audio_data = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='float64')
-    sd.wait()  # Wait until recording is finished
-    print("Recording stopped.")
-
-    return audio_data.flatten()
-
-
 # Get the file name from the user
-def save_uploaded_file(uploaded_file, samplerate):
-    file_name = "temp_audio.wav"
-    sf.write(file_name, uploaded_file, samplerate)
-    return file_name
-
-# Function to transcribe audio using Deepgram API
-def transcribe_audio(audio_file_path):
-    api_key = st.secrets["deepgram"]
-    url = "https://api.deepgram.com/v1/listen?model=nova-2"
-    headers = {
-        "Authorization": f"Token {api_key}",
-        "Content-Type": "audio/wav",
-    }
-    with open(audio_file_path, "rb") as f:
-        audio_data = f.read()
-    
-    # Debugging statement
-    print("Length of audio data:", len(audio_data))
-    
-    response = requests.post(url, headers=headers, data=audio_data)
-    
-    print("Transcription request URL:", response.url)
-    print("Request headers:", response.request.headers)
-    print("Request body length:", len(audio_data))
-    
-    print("Response status code:", response.status_code)  
-    if response.status_code == 200:
-        result = response.json()
-        print("Transcription result:", result)  
-        if "results" in result and "channels" in result["results"] and result["results"]["channels"]:
-            transcripts = result["results"]["channels"][0]["alternatives"][0]["transcript"]
-            return transcripts
-        else:
-            print("No transcripts found in result.")  
-    else:
-        print("Failed to transcribe audio. Error:", response.text)  
-    return None
-
-transcribed_text = ""  # Define a default value for transcribed_text
-
-# Add button for recording audio
-if st.button("Record Audio"):
-    duration = 10  # Recording duration in seconds
-    samplerate = 44100  # Sample rate
-    audio_data = record_audio(duration, samplerate)
-    audio_file_path = save_uploaded_file(audio_data, samplerate)
-    st.write("Recording saved:", audio_file_path)
-
-# Add option to upload recorded audio file
-audio_file = st.file_uploader("Upload recorded audio file", type=["wav", "mp3"])
-if audio_file is not None:
-    st.audio(audio_file, format="audio/wav")
-    # Save uploaded audio file
-    audio_file_path = save_uploaded_file(audio_file, samplerate)
-    # Transcribe audio and update query input field
-    st.write("Transcribing audio...")
-    transcribed_text = transcribe_audio(audio_file_path)
-    if transcribed_text:
-        st.write("Transcription complete!")
-    else:
-        st.write("Failed to transcribe audio.")
-
-# Download button for recorded audio file
-if audio_file_path:
-    if st.button("Download Recorded Audio"):
-        with open(audio_file_path, "rb") as f:
-            audio_bytes = f.read()
-            b64 = base64.b64encode(audio_bytes).decode()
-            href = f'<a href="data:audio/wav;base64,{b64}" download="recorded_audio.wav">Download Recorded Audio</a>'
-            st.markdown(href, unsafe_allow_html=True)
-
-# Modify query input field to allow for multiple languages
 source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German"])  # Add more languages as needed
 if source_language != "English":
     translated_query = translate_text(target="en", text=transcribed_text, source=source_language)
@@ -292,6 +200,7 @@ Summary:
         with open(audio_file_path, "wb") as f:
             f.write(audio_content)
         st.audio(audio_file_path, format="audio/mp3")
+
 
 
 
