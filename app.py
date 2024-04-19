@@ -82,7 +82,7 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 #     translated_query = transcribed_text
 
 # Update query input field with transcribed text
-query = st.text_input(label="Please enter your query - ", value=translated_query, key="query_input")
+query = st.text_input(label="Please enter your query - ", key = "query_input")#, value=translated_query, key="query_input")
 top_k = st.number_input(label="Top k - ", min_value=3, max_value=5, value=3, key="top_k_input")
 # Proceed with semantic search
 retriever = create_retriever(top_k)
