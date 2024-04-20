@@ -14,13 +14,15 @@ import requests
 st.set_page_config(layout="wide")
 
 # Load the JSON credentials file directly
-with open("GOOGLE_APPLICATION_CREDENTIALS_JSON.json") as f:
-    service_account_info = json.load(f)
+# with open("GOOGLE_APPLICATION_CREDENTIALS_JSON.json") as f:
+#     service_account_info = json.load(f)
 
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
+#     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
+# )
 os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
 )
-
 # os.environ["OPENAI_API_KEY"] = ""
 # API_KEY = ""
 client = OpenAI()
