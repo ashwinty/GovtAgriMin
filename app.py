@@ -20,9 +20,6 @@ st.set_page_config(layout="wide")
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
 #     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
 # )
-os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
-    "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
-)
 # os.environ["OPENAI_API_KEY"] = ""
 # API_KEY = ""
 client = OpenAI()
