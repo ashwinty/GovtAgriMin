@@ -29,7 +29,7 @@ client = OpenAI()
 audio_file_path = ""  # Define audio_file_path globally
 credentials = service_account.Credentials.from_service_account_info(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
 # Initialize Google Cloud Text-to-Speech client
-text_to_speech_client = texttospeech.TextToSpeechClient()
+text_to_speech_client = texttospeech.TextToSpeechClient(credentials=credentials)
 
 @st.cache_resource
 def create_retriever(top_k, source_language):
