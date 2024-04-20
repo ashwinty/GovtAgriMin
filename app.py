@@ -218,7 +218,8 @@ Summary:
         st.write("Audio")
         audio_content = text_to_speech(result)
         audio_file_path = "data:audio/mp3;base64," + base64.b64encode(audio_content).decode("utf-8")
-        st.audio(audio_content, format="audio/mp3")
+        st.audio(audio_file_path, format="audio/mp3")
+
 
 
 
