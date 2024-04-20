@@ -10,6 +10,7 @@ from google.cloud import texttospeech
 from langdetect import detect
 import base64
 import requests
+from google.oauth2 import service_account
 
 st.set_page_config(layout="wide")
 
