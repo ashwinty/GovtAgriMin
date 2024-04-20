@@ -17,7 +17,7 @@ st.set_page_config(layout="wide")
 # with open("GOOGLE_APPLICATION_CREDENTIALS_JSON.json") as f:
 #     service_account_info = json.load(f)
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]=st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
+os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]=(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
 #  os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
 #     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
 # )
