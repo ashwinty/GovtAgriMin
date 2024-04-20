@@ -16,8 +16,8 @@ st.set_page_config(layout="wide")
 # Load the JSON credentials file directly
 # with open("GOOGLE_APPLICATION_CREDENTIALS_JSON.json") as f:
 #     service_account_info = json.load(f)
-key = st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
-os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]=key
+# key = st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]=key
 #  os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
 #     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
 # )
@@ -26,7 +26,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]=key
 client = OpenAI()
 
 audio_file_path = ""  # Define audio_file_path globally
-
+credentials = service_account.Credentials.from_service_account_info(st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
 # Initialize Google Cloud Text-to-Speech client
 text_to_speech_client = texttospeech.TextToSpeechClient()
 
