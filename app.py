@@ -18,9 +18,9 @@ st.set_page_config(layout="wide")
 #     service_account_info = json.load(f)
 
 credentials=st.secrets["GOOGLE_APPLICATION_CREDENTIALS_JSON.json"]
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
-    "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
-)
+#  os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
+#     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
+# )
 # os.environ["OPENAI_API_KEY"] = ""
 # API_KEY = ""
 client = OpenAI()
