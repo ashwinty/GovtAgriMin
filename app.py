@@ -17,9 +17,9 @@ st.set_page_config(layout="wide")
 # with open("GOOGLE_APPLICATION_CREDENTIALS_JSON.json") as f:
 #     service_account_info = json.load(f)
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
-#     "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
-# )
+credentials=os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = (
+    "GOOGLE_APPLICATION_CREDENTIALS_JSON.json"
+)
 # os.environ["OPENAI_API_KEY"] = ""
 # API_KEY = ""
 client = OpenAI()
@@ -27,7 +27,7 @@ client = OpenAI()
 audio_file_path = ""  # Define audio_file_path globally
 
 # Initialize Google Cloud Text-to-Speech client
-text_to_speech_client = texttospeech.TextToSpeechClient()
+text_to_speech_client = texttospeech.TextToSpeechClient(credentials=credentials)
 
 @st.cache_resource
 def create_retriever(top_k, source_language):
