@@ -32,6 +32,9 @@ translator = Translator()
 # Modify query input field to allow for multiple languages
 source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German", "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", "Urdu", "Gujarati", "Kannada", "Odia", "Malayalam", "Punjabi", "Assamese", "Maithili"]) # Add more languages as needed
 translated_query = ""  # Initialize translated_query variable
+
+# Define query variable before using it
+query = ""
 if source_language != "English":
     translated_query = translator.translate(query, dest='en').text
 else:
@@ -151,6 +154,7 @@ Summary:
         audio_content = text_to_speech_client.synthesize_speech(input=result, voice=texttospeech.VoiceSelectionParams(language_code='en-US', ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL), audio_config=texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3))
         audio_file_path = "data:audio/mp3;base64," + base64.b64encode(audio_content.audio_content).decode("utf-8")
         st.audio(audio_file_path, format="audio/mp3")
+
 
 
 
