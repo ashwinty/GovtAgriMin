@@ -74,8 +74,11 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 
 translator = Translator()
 
-def translate_to_english(text, detected_lang):
+def translate_to_english(text):
     try:
+        # Detect the language of the text
+        detected_lang = detect_language(text)
+        
         # If the detected language is not English, translate it to English
         if detected_lang != 'en':
             translated_text = translator.translate(text, src=detected_lang, dest='en').text
@@ -179,7 +182,7 @@ if query and top_k:
             top3.append(i["Text"])
             top3_name.append(i["Document"])
         temp_summary = []
-        translated_query = translate_to_english(text=transcribed_text, detected_lang=detected_language)
+        translated_query = translate_to_english(text=transcribed_text)
         for resp in client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[
