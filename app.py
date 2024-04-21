@@ -45,6 +45,9 @@ def create_retriever(top_k, source_language):
 
 def detect_language(text):
     try:
+        if len(text.strip()) < 3:  # Check if text is too short
+            st.warning("Input text is too short for language detection.")
+            return "en"  # Default to English
         language = detect(text)
         return language
     except Exception as e:
