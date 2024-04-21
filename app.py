@@ -27,6 +27,17 @@ def create_retriever(top_k, source_language):
     )
     return index.as_retriever(retriever_mode="embedding", similarity_top_k=int(top_k)), source_language
 
+def detect_language(text):
+    try:
+        if len(text.strip()) < 3:  # Check if text is too short
+            # st.warning("Input text is too short for language detection.")
+            return "en"  # Default to English
+        language = detect(text)
+        return language
+    except Exception as e:
+        st.error(f"Language detection failed: {e}")
+        return "en"  # Default to English if language detection fails
+
 translator = Translator()
 
 # Modify query input field to allow for multiple languages
