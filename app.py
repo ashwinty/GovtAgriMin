@@ -129,7 +129,9 @@ if audio_file is not None:
 # Modify query input field to allow for multiple languages
 source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German", "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", "Urdu", "Gujarati", "Kannada", "Odia", "Malayalam", "Punjabi", "Assamese", "Maithili"]) # Add more languages as needed
 if source_language != "English":
-    translated_query = transcribed_text
+    translated_query = translate_to_english(
+        text=transcribed_text, source_language=source_language
+    )
 else:
     translated_query = transcribed_text
 
