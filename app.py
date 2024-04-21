@@ -51,7 +51,7 @@ if query and top_k:
     col1, col2 = st.columns([3, 2])
     with col1:
         response = []
-        for i in retriever.retrieve(query):
+        for i in retriever.retrieve(translated_query):
             response.append(
                 {
                     "Document": i.metadata["link"][40:-4],
