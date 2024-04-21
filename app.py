@@ -74,17 +74,30 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 
 translator = Translator()
 
-def translate_to_english(text):
-    try:
-        # Detect the language of the text
-        detected_lang = detect_language(text)
+# def translate_to_english(text):
+#     try:
+#         # Detect the language of the text
+#         detected_lang = detect_language(text)
         
-        # If the detected language is not English, translate it to English
-        if detected_lang != 'en':
-            translated_text = translator.translate(text, src=detected_lang, dest='en').text
-            return translated_text
-        else:
-            return text  # Return the original text if it's already in English
+#         # If the detected language is not English, translate it to English
+#         if detected_lang != 'en':
+#             translated_text = translator.translate(text, src=detected_lang, dest='en').text
+#             return translated_text
+#         else:
+#             return text  # Return the original text if it's already in English
+#     except Exception as e:
+#         st.error(f"Translation failed: {e}")
+#         return text  # Return the original text if translation fails
+
+def translate_with_gpt4(text, target_language):
+    try:
+        response = client.translate(
+            text=text,
+            target_language=target_language,
+            model="gpt-4"
+        )
+        translated_text = response.choices[0].text.strip()
+        return translated_text
     except Exception as e:
         st.error(f"Translation failed: {e}")
         return text  # Return the original text if translation fails
