@@ -11,6 +11,7 @@ from langdetect import detect
 import base64
 import requests
 from google.oauth2 import service_account
+from googletrans import Translator
 
 st.set_page_config(layout="wide")
 
@@ -68,10 +69,22 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 
     return response.audio_content
 
+translator = Translator()
 
-# Function to translate text to English
-def translate_to_english(text, source_language):
-    return text, source_language
+def translate_to_english(text):
+    try:
+        # Detect the language of the text
+        detected_lang = detect_language(text)
+        
+        # If the detected language is not English, translate it to English
+        if detected_lang != 'en':
+            translated_text = translator.translate(text, src=detected_lang, dest='en').text
+            return translated_text
+        else:
+            return text  # Return the original text if it's already in English
+    except Exception as e:
+        st.error(f"Translation failed: {e}")
+        return text  # Return the original text if translation fails
 
 # Function to save audio data to a temporary file
 def save_audio_to_tempfile(audio_data, samplerate):
