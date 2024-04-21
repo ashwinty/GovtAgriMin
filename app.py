@@ -74,50 +74,20 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 
 translator = Translator()
 
-# def translate_to_english(text):
-#     try:
-#         # Detect the language of the text
-#         detected_lang = detect_language(text)
+def translate_to_english(text):
+    try:
+        # Detect the language of the text
+        detected_lang = detect_language(text)
         
-#         # If the detected language is not English, translate it to English
-#         if detected_lang != 'en':
-#             translated_text = translator.translate(text, src=detected_lang, dest='en').text
-#             return translated_text
-#         else:
-#             return text  # Return the original text if it's already in English
-#     except Exception as e:
-#         st.error(f"Translation failed: {e}")
-#         return text  # Return the original text if translation fails
-
-# def translate_to_english(text, target_language):
-#     try:
-#         response = client.translate(
-#             text=text,
-#             target_language=target_language,
-#             model="gpt-4"
-#         )
-#         translated_text = response.choices[0].text.strip()
-#         return translated_text
-#     except Exception as e:
-#         st.error(f"Translation failed: {e}")
-#         return text  # Return the original text if translation fails
-
-def translate_to_english(text, target_language="en"):
-    prompt = f"Translate the following text from its language to English:\n\n{text}\n\nTranslate to English:"
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {
-                "role": "system",
-                "content": prompt
-            }
-        ],
-        temperature=0,
-        max_tokens=150,
-        stop=["\n"]
-    )
-    translated_text = response.choices[0].text.strip()
-    return translated_text
+        # If the detected language is not English, translate it to English
+        if detected_lang != 'en':
+            translated_text = translator.translate(text, src=detected_lang, dest='en').text
+            return translated_text
+        else:
+            return text  # Return the original text if it's already in English
+    except Exception as e:
+        st.error(f"Translation failed: {e}")
+        return text  # Return the original text if translation fails
 
 # Function to save audio data to a temporary file
 def save_audio_to_tempfile(audio_data, samplerate):
@@ -213,7 +183,7 @@ if query and top_k:
             top3_name.append(i["Document"])
         temp_summary = []
         # translated_query = translate_to_english(text=transcribed_text)
-        translated_query = translate_to_english(text=transcribed_text, target_language="en")
+        translated_query = translate_to_english(text=transcribed_text)
         for resp in client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[
