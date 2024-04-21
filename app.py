@@ -104,8 +104,8 @@ translator = Translator()
 
 def translate_to_english(text, target_language="en"):
     prompt = f"Translate the following text from its language to English:\n\n{text}\n\nTranslate to English:"
-    response = client.chat.Completion.create(
-        model="text-davinci-003",
+    response = client.chat.completion.create(
+        model="gpt-4",
         messages=[
             {
                 "role": "system",
