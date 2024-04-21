@@ -89,18 +89,30 @@ translator = Translator()
 #         st.error(f"Translation failed: {e}")
 #         return text  # Return the original text if translation fails
 
-def translate_to_english(text, target_language):
-    try:
-        response = client.translate(
-            text=text,
-            target_language=target_language,
-            model="gpt-4"
-        )
-        translated_text = response.choices[0].text.strip()
-        return translated_text
-    except Exception as e:
-        st.error(f"Translation failed: {e}")
-        return text  # Return the original text if translation fails
+# def translate_to_english(text, target_language):
+#     try:
+#         response = client.translate(
+#             text=text,
+#             target_language=target_language,
+#             model="gpt-4"
+#         )
+#         translated_text = response.choices[0].text.strip()
+#         return translated_text
+#     except Exception as e:
+#         st.error(f"Translation failed: {e}")
+#         return text  # Return the original text if translation fails
+
+def translate_to_english(text, target_language="en"):
+    prompt = f"Translate the following text from its language to English:\n\n{text}\n\nTranslate to English:"
+    response = client.completions.create(
+        model="gpt-4",
+        prompt=prompt,
+        temperature=0,
+        max_tokens=150,
+        stop=["\n"]
+    )
+    translated_text = response.choices[0].text.strip()
+    return translated_text
 
 # Function to save audio data to a temporary file
 def save_audio_to_tempfile(audio_data, samplerate):
