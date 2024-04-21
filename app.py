@@ -7,6 +7,8 @@ from openai import OpenAI
 from google.cloud import texttospeech
 from googletrans import Translator
 
+import base64
+
 st.set_page_config(layout="wide")
 
 client = OpenAI()
@@ -31,10 +33,9 @@ translator = Translator()
 source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German", "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", "Urdu", "Gujarati", "Kannada", "Odia", "Malayalam", "Punjabi", "Assamese", "Maithili"]) # Add more languages as needed
 translated_query = ""  # Initialize translated_query variable
 if source_language != "English":
-    # Provide translation logic here
-    pass
+    translated_query = translator.translate(query, dest='en').text
 else:
-    translated_query = ""  # Set translated_query to the value of the transcribed text
+    translated_query = query
 
 # Update query input field with translated text
 query = st.text_input(label="Please enter your query - ", value=translated_query, key="query_input")
@@ -67,13 +68,12 @@ if query and top_k:
             top3.append(i["Text"])
             top3_name.append(i["Document"])
         temp_summary = []
-        translated_query = ""  # Provide translation logic here
         for resp in client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[
                 {
                     "role": "system",
-                    "content": f"Act as a query answering GPT for The Ministry of Agriculture and Farmers Welfare, India. You answer queries of officers and farmers using your knowledgebase. Now answer the {translated_query}, using the following knowledgebase:{top3} Your knowledgebase also contains name of the document, give it when answering so as to making your answer clear: {top3_name}. Strictly answer based on the available knowledge base. And remember, you must answer the query in easy to understand, everyday spoken language of {query}",
+                    "content": f"Act as a query answering GPT for The Ministry of Agriculture and Farmers Welfare, India. You answer queries of officers and farmers using your knowledgebase. Now answer the {query}, using the following knowledgebase:{top3} Your knowledgebase also contains name of the document, give it when answering so as to making your answer clear: {top3_name}. Strictly answer based on the available knowledge base. And remember, you must answer the query in easy to understand, everyday spoken language of {query}",
                 },
                 {
                     "role": "user",
@@ -141,7 +141,6 @@ Summary:
                 if phrase in result:
                     result = result.replace(phrase, f"[{phrase}]({link})")
             summary.markdown(result)
-        # print(result)
 
         # Automatically speak the generated summary
         st.write("")
@@ -149,9 +148,10 @@ Summary:
         st.write("")
 
         st.write("Audio")
-        audio_content = text_to_speech(result)
-        audio_file_path = "data:audio/mp3;base64," + base64.b64encode(audio_content).decode("utf-8")
+        audio_content = text_to_speech_client.synthesize_speech(input=result, voice=texttospeech.VoiceSelectionParams(language_code='en-US', ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL), audio_config=texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.MP3))
+        audio_file_path = "data:audio/mp3;base64," + base64.b64encode(audio_content.audio_content).decode("utf-8")
         st.audio(audio_file_path, format="audio/mp3")
+
 
 
 
