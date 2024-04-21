@@ -89,7 +89,7 @@ translator = Translator()
 #         st.error(f"Translation failed: {e}")
 #         return text  # Return the original text if translation fails
 
-def translate_with_gpt4(text, target_language):
+def translate_to_english(text, target_language):
     try:
         response = client.translate(
             text=text,
