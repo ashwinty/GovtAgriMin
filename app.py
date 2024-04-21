@@ -179,9 +179,7 @@ if query and top_k:
             top3.append(i["Text"])
             top3_name.append(i["Document"])
         temp_summary = []
-        translated_query = translate_to_english(
-            text=query, source_language=source_language
-        )  # Assuming English is the source language
+        translated_query = translate_to_english(text=transcribed_text)
         for resp in client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[
