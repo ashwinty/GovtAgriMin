@@ -41,7 +41,7 @@ else:
     translated_query = query
 
 # Update query input field with translated text
-query = st.text_input(label="Please enter your query - ", value=translated_query, key="query_input")
+query = st.text_input(label="Please enter your query - ",key="query_input")
 top_k = st.number_input(label="Top k - ", min_value=3, max_value=5, value=3, key="top_k_input")
 # Proceed with semantic search
 retriever, source_language = create_retriever(top_k, source_language)
