@@ -11,3 +11,4 @@ sounddevice
 pydub
 google-cloud-texttospeech
 langdetect
+googletrans
