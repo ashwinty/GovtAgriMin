@@ -12,3 +12,4 @@ pydub
 google-cloud-texttospeech
 langdetect
 googletrans
+openai==1.21.2
