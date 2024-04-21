@@ -145,11 +145,11 @@ if audio_file is not None:
 # Modify query input field to allow for multiple languages
 source_language = st.selectbox("Select Source Language:", ["English", "Spanish", "French", "German", "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", "Urdu", "Gujarati", "Kannada", "Odia", "Malayalam", "Punjabi", "Assamese", "Maithili"]) # Add more languages as needed
 if source_language != "English":
-    translated_query = translate_to_english(transcribed_text)
+    translated_query = translate_to_english(text)
 else:
     translated_query = transcribed_text
 
-# Update query input field with transcribed text
+# Update query input field with translated text
 query = st.text_input(label="Please enter your query - ", value=translated_query, key="query_input")
 top_k = st.number_input(label="Top k - ", min_value=3, max_value=5, value=3, key="top_k_input")
 # Proceed with semantic search
