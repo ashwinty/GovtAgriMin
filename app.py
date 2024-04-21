@@ -35,13 +35,13 @@ translated_query = ""  # Initialize translated_query variable
 
 # Define query variable before using it
 query = ""
+
+# Update query input field with translated text
+query = st.text_input(label="Please enter your query - ",key="query_input")
 if source_language != "English":
     translated_query = translator.translate(query, dest='en').text
 else:
     translated_query = query
-
-# Update query input field with translated text
-query = st.text_input(label="Please enter your query - ",key="query_input")
 top_k = st.number_input(label="Top k - ", min_value=3, max_value=5, value=3, key="top_k_input")
 # Proceed with semantic search
 retriever, source_language = create_retriever(top_k, source_language)
