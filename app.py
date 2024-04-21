@@ -74,11 +74,8 @@ def text_to_speech(text, audio_format=texttospeech.AudioEncoding.MP3):
 
 translator = Translator()
 
-def translate_to_english(text):
+def translate_to_english(text, detected_lang):
     try:
-        # Detect the language of the text
-        detected_lang = detect_language(text)
-        
         # If the detected language is not English, translate it to English
         if detected_lang != 'en':
             translated_text = translator.translate(text, src=detected_lang, dest='en').text
